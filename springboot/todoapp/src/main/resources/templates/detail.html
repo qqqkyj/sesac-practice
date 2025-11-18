@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>detail</title>
+</head>
+<body>
+    <h1>detail</h1>
+    <p th:text="${todo.title}"></p>
+    <p th:text="${todo.content}"></p>
+    <p th:text="${todo.completed ? '완료' : '미완료'}"></p>
+    <a href="/todos">목록</a><br>
+    <a th:href="@{/todos/{id}/edit(id=${todo.id})}">수정</a><br>
+    <a th:href="@{/todos/{id}/delete(id=${todo.id})}">삭제</a>
+</body>
+</html>
