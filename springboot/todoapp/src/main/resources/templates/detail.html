@@ -1,5 +1,9 @@
 <!doctype html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html
+        lang="en" xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}"
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,12 +12,22 @@
     <title>detail</title>
 </head>
 <body>
-    <h1>detail</h1>
-    <p th:text="${todo.title}"></p>
-    <p th:text="${todo.content}"></p>
-    <p th:text="${todo.completed ? '완료' : '미완료'}"></p>
-    <a href="/todos">목록</a><br>
-    <a th:href="@{/todos/{id}/edit(id=${todo.id})}">수정</a><br>
-    <a th:href="@{/todos/{id}/delete(id=${todo.id})}">삭제</a>
+    <div layout:fragment="content">
+        <h1>detail</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${todo.title}"></h5>
+                <p class="card-text" th:text="${todo.content}"></p>
+                <p>
+                    <span th:if="${todo.completed}" class="badge bg-success">완료</span>
+                    <span th:if="${!todo.completed}" class="badge bg-warning">진행중</span>
+                </p>
+            </div>
+        </div>
+
+        <a th:href="@{/todos/{id}/toggle(id=${todo.id})}" class="btn btn-primary">toggle</a>
+        <a th:href="@{/todos/{id}/update(id=${todo.id})}" class="btn btn-warning">edit</a>
+        <a th:href="@{/todos/{id}/delete(id=${todo.id})}" class="btn btn-danger">delete</a>
+    </div>
 </body>
 </html>
