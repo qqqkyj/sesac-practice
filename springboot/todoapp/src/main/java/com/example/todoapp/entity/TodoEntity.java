@@ -1,0 +1,53 @@
+package com.example.todoapp.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class TodoEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//autoIncrement
+    private Long id;
+    private String title;
+    private String content;
+    private boolean completed;
+
+    public TodoEntity() {
+    }
+
+    public TodoEntity(boolean completed, String content, String title) {
+        this.completed = completed;
+        this.content = content;
+        this.title = title;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+}
