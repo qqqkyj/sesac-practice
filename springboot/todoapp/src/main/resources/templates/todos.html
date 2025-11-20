@@ -11,7 +11,11 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <h1>할 일 목록</h1>
+        <div th:if="${status == 0}">
+            전체 : <span th:text="${todosCount}" class="badge bg-primary"></span>
+            완료: <span th:text="${completedCount}" class="badge bg-success"></span>
+            미완료: <span th:text="${activeCount}" class="badge bg-warning"></span>
+        </div>
         <table class="table table-striped">
             <thead>
                 <th>ID</th>
@@ -28,7 +32,7 @@
                         <span th:if="${!todo.completed}" class="badge bg-warning">진행중</span>
                     </td>
                     <td>
-                        <a th:href="@{/todos/{id}(id=${todo.id})}">보기</a>
+                        <a th:href="@{/todos/{id}(id=${todo.id})}" class="btn btn-sm btn-primary">보기</a>
                     </td>
                 </tr>
             </tbody>

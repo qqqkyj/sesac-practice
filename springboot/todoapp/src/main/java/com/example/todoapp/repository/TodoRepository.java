@@ -18,9 +18,10 @@ public class TodoRepository {
         return new ArrayList<>(storage.values());
     }
 
-    public void save(TodoDTO todo) {
+    public TodoDTO save(TodoDTO todo) {
         if(todo.getId() == null) {todo.setId(nextId++);}
         storage.put(todo.getId(), todo);
+        return todo;
     }
 
     public Optional<TodoDTO> findById(Long id) {
@@ -41,6 +42,10 @@ public class TodoRepository {
         return storage.values().stream()
                 .filter((todo) -> todo.isCompleted() == isCompleted)
                 .toList();
+    }
+
+    public void deleteCompleted(){
+         storage.entrySet().removeIf(item -> item.getValue().isCompleted());
     }
 
 }

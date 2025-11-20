@@ -6,6 +6,9 @@ public class TodoDTO {
     private String content;
     private boolean completed;
 
+    public TodoDTO() {
+    }
+
     public TodoDTO(Long id, String title, String content, boolean completed) {
         this.id = id;
         this.title = title;
