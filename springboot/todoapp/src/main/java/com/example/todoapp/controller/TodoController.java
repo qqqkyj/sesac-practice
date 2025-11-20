@@ -21,9 +21,11 @@ public class TodoController {
     @GetMapping
     public String todos(Model model) {
         model.addAttribute("todos", todoService.getAllTodos());
-        model.addAttribute("todoCount", todoService.getTotalCount());
+        model.addAttribute("todosCount", todoService.getTotalCount());
         model.addAttribute("completedCount", todoService.getCompletedCount());
         model.addAttribute("activeCount", todoService.getActiveCount());
+        // status로 할 경우 삭제 시 flashmessage가 아래 데이터로 먹혀서 danger로 안보임
+        model.addAttribute("check", TodoStatus.NORMAL.getCode());
         return "todos";
     }
 

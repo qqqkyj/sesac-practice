@@ -11,7 +11,7 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div th:if="${status == 0}">
+        <div th:if="${check == 0}">
             전체 : <span th:text="${todosCount}" class="badge bg-primary"></span>
             완료: <span th:text="${completedCount}" class="badge bg-success"></span>
             미완료: <span th:text="${activeCount}" class="badge bg-warning"></span>
