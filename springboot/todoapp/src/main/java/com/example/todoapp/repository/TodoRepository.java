@@ -1,51 +1,14 @@
 package com.example.todoapp.repository;
 
-import com.example.todoapp.dto.TodoDTO;
-import org.springframework.stereotype.Repository;
+import com.example.todoapp.entity.TodoEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
-public class TodoRepository {
-    private final Map<Long, TodoDTO> storage = new ConcurrentHashMap<>();
-    private Long nextId = 1L;
-
-    public List<TodoDTO> findAll() {
-        return new ArrayList<>(storage.values());
-    }
-
-    public TodoDTO save(TodoDTO todo) {
-        if(todo.getId() == null) {todo.setId(nextId++);}
-        storage.put(todo.getId(), todo);
-        return todo;
-    }
-
-    public Optional<TodoDTO> findById(Long id) {
-        return Optional.ofNullable(storage.get(id));
-    }
-
-    public void deleteById(Long id) {
-        storage.remove(id);
-    }
-
-    public List<TodoDTO> findByTitleContaining(String keyword){
-        return storage.values().stream()
-                .filter((todo) -> todo.getTitle().toLowerCase().contains(keyword.toLowerCase()))
-                .toList();
-    }
-
-    public List<TodoDTO> findByCompleted(boolean isCompleted) {
-        return storage.values().stream()
-                .filter((todo) -> todo.isCompleted() == isCompleted)
-                .toList();
-    }
-
-    public void deleteCompleted(){
-         storage.entrySet().removeIf(item -> item.getValue().isCompleted());
-    }
-
+public interface TodoRepository extends JpaRepository<TodoEntity,Long> {
+    List<TodoEntity> findByTitleContaining(String keyword);
+    List<TodoEntity> findByCompleted(boolean completed);
+    void deleteByCompleted(boolean completed);
+    long count();
+    long countByCompleted(boolean completed);
 }

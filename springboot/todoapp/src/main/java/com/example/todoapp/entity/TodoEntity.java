@@ -1,11 +1,9 @@
 package com.example.todoapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "todos")
 public class TodoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//autoIncrement
@@ -17,7 +15,7 @@ public class TodoEntity {
     public TodoEntity() {
     }
 
-    public TodoEntity(boolean completed, String content, String title) {
+    public TodoEntity(String title, String content, boolean completed) {
         this.completed = completed;
         this.content = content;
         this.title = title;
