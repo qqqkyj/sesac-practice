@@ -2,6 +2,7 @@ package com.example.board.controller;
 
 import com.example.board.dto.PostDTO;
 import com.example.board.repository.PostRepository;
+import com.example.board.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/posts")
 public class PostController {
-    private final PostRepository postRepository;
+//    private final PostRepository postRepository;
+    private final PostService postService;
 
     @GetMapping
     public String list(Model model) {
