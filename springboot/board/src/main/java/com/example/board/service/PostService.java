@@ -40,4 +40,8 @@ public class PostService {
         postRepository.deleteById(post);
     }
 
+    public List<Post> searchPost(String keyword){
+        return postRepository.findByTitleContaining(keyword);
+    }
+
 }

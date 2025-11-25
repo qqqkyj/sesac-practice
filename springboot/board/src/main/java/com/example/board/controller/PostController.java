@@ -70,4 +70,12 @@ public class PostController {
         return "redirect:/posts";
     }
 
+    //검색
+    @GetMapping("/search")
+    public String search(@RequestParam String keyword, Model model) {
+        List<Post> posts = postService.searchPost(keyword);
+        model.addAttribute("posts", posts);
+        return "posts/list";
+    }
+
 }
