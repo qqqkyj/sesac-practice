@@ -20,7 +20,7 @@ public class PostService {
     }
 
     public Post getPostById(Long id){
-        return postRepository.findById(id);
+        return postRepository.findById(id).orElseThrow(() -> (new IllegalArgumentException("post not found!")));
     }
 
     public List<Post> getAllPosts(){
@@ -32,12 +32,12 @@ public class PostService {
         Post post = getPostById(id);
         post.setTitle(updatedPost.getTitle());
         post.setContent(updatedPost.getContent());
-        return postRepository.update(post);
+        return postRepository.save(post);
     }
 
     @Transactional
     public void deletePost(Post post){
-        postRepository.deleteById(post);
+        postRepository.delete(post);
     }
 
     public List<Post> searchPost(String keyword){

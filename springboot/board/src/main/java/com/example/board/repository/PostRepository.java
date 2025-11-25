@@ -1,93 +1,23 @@
 package com.example.board.repository;
 
-import com.example.board.dto.PostDTO;
 import com.example.board.entity.Post;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-//@Repository
-//@RequiredArgsConstructor
-//public class PostRepository {
-//    private final JdbcTemplate jdbcTemplate;
-//
-//    private final RowMapper<PostDTO> rowMapper = (rs, rowNum) -> {
-//        return new PostDTO(
-//                rs.getLong("id"),
-//                rs.getString("title"),
-//                rs.getString("content"),
-//                rs.getTimestamp("created_at").toLocalDateTime()
-//        );
-//    };
-//
-//    //생성
-//    public void save(PostDTO post){
-//        String sql = "INSERT INTO post (title, content) VALUES (?, ?)";
-//        jdbcTemplate.update(sql,post.getTitle(), post.getContent());
-//    }
-//
-//    //조회
-//    public List<PostDTO> findAll(){
-//        String sql = "SELECT * FROM post ";
-//        return jdbcTemplate.query(sql, rowMapper);
-//    }
-//
-//    public PostDTO findById(Long id){
-//        String sql = "SELECT * FROM post WHERE id = ?";
-//        return jdbcTemplate.queryForObject(sql, rowMapper, id);
-//    }
-//
-//    //수정
-//    public void update(Long id, PostDTO post){
-//        String sql = "UPDATE post SET title = ?, content = ? WHERE id = ?";
-//        jdbcTemplate.update(sql, post.getTitle(), post.getContent(), id);
-//    }
-//
-//    //삭제
-//    public void deleteById(Long id){
-//        String sql = "DELETE FROM post WHERE id = ?";
-//        jdbcTemplate.update(sql, id);
-//    }
-//}
-
-@RequiredArgsConstructor
 @Repository
-public class PostRepository {
-    @PersistenceContext
-    private final EntityManager em;
+public interface PostRepository extends JpaRepository<Post, Long> {
+    //1. 쿼리 메서드
+    List<Post> findByTitleContaining(String keyword);
 
-    public List<Post> findAll(){
-        String jpql="select p from Post p";
-        return em.createQuery(jpql,Post.class).getResultList();
-    }
+    //2. JPQL(Java Persistence Query Language)
+    @Query("SELECT p FROM Post p WHERE p.title LIKE %:keyword% ORDER BY p.createdAt DESC")
+    List<Post> findByTitleJPQL(@Param("keyword") String keyword);
 
-    public  Post findById(Long id)
-    {
-        return em.find(Post.class,id);
-    }
-
-    public Post save(Post post)
-    {
-        em.persist(post);
-        return post;
-    }
-
-    public Post update(Post post)
-    {
-        return em.merge(post);
-    }
-
-    public void deleteById(Post post){
-        em.remove(post);
-    }
-
-    public List<Post> findByTitleContaining(String keyword){
-        String jpql="select p from Post p where p.title like :keyword";
-        return em.createQuery(jpql,Post.class).setParameter("keyword", "%"+keyword+"%").getResultList();
-    }
+    //3. native query
+    @Query(value = "SELECT * FROM post WHERE title LIKE %:keyword: ORDER BY created_at DESC", nativeQuery = true)
+    List<Post> findByTitleNativeQuery(@Param("keyword") String keyword);
 }
