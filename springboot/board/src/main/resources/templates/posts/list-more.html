@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>slice</title>
+</head>
+<body>
+    <!--    table>thead+tbody입력 후 tab 누르면 자동으로 생성-->
+    <table>
+        <thead>
+        <!-- tr>th*3 입력 후 tab -->
+        <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>작성일</th>
+        </tr></thead>
+        <tbody>
+        <!-- tr>td*3 입력 후 tab -->
+        <tr th:each="post : ${postSlice}">
+            <td th:text="${post.id}"></td>
+            <td>
+                <a th:href="@{/posts/{id}(id=${post.id})}"
+                   th:text="${post.title}"
+                >
+                </a>
+            </td>
+            <td th:text="${post.createdAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:if="${postSlice.hasNext()}" th:href="@{/posts/more(page=${postSlice.number+1})}">더보기</a>
+    <p th:unless="${postSlice.hasNext()}">마지막 페이지입니다.</p>
+</body>
+</html>

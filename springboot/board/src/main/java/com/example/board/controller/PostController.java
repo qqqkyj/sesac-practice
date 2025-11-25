@@ -7,6 +7,7 @@ import com.example.board.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -54,6 +55,15 @@ public class PostController {
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
         return "posts/list";
+    }
+
+    //스크롤 처리(Slice)
+    @GetMapping("/more")
+    public String more(@PageableDefault(size = 15, sort = "id" ,direction = Sort.Direction.DESC) Pageable pageable,
+                           Model model){
+        Slice<Post> postSlice = postService.getPostSlice(pageable);
+        model.addAttribute("postSlice",postSlice);
+        return "posts/list-more";
     }
 
     //생성화면 렌더링

@@ -5,6 +5,7 @@ import com.example.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,4 +61,8 @@ public class PostService {
         return postRepository.findAll(pageable);
     }
 
+    //스크롤 처리
+    public Slice<Post> getPostSlice(Pageable pageable){
+        return postRepository.findAllBy(pageable);
+    }
 }
