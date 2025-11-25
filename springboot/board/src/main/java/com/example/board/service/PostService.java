@@ -65,4 +65,9 @@ public class PostService {
     public Slice<Post> getPostSlice(Pageable pageable){
         return postRepository.findAllBy(pageable);
     }
+
+    //검색 페이징 처리
+    public Page<Post> getPostPageByTitle(String keyword, Pageable pageable){
+        return postRepository.findByTitleContaining(keyword, pageable);
+    }
 }

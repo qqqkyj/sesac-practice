@@ -12,7 +12,7 @@
 <a href="/posts/new">new</a>
 <a href="/posts/dummy">dummy</a>
 
-<form action="/posts/search">
+<form action="/posts"><!--<form action="/posts/search">-->
     <input type="text" name="keyword">
     <input type="submit">
 </form>
@@ -28,7 +28,7 @@
     </tr></thead>
     <tbody>
     <!-- tr>td*3 입력 후 tab -->
-    <tr th:each="post : ${postPage}">
+    <tr th:each="post : ${postPage.getContent()}">
         <td th:text="${post.id}"></td>
         <td>
             <a th:href="@{/posts/{id}(id=${post.id})}"
@@ -43,17 +43,17 @@
 
     <!-- 페이지 네비게이션 -->
     <div>
-        <a th:href="@{/posts(page=0)}">first</a>
+        <a th:href="@{/posts(page=0, keyword=${keyword})}">first</a>
         <!--이전-->
-        <a th:if="${postPage.hasPrevious()}" th:href="@{/posts(page=${postPage.number-1})}">◀</a>
+        <a th:if="${postPage.hasPrevious()}" th:href="@{/posts(page=${postPage.number-1}, keyword=${keyword})}">◀</a>
         <!--페이지-->
         <span th:each="i : ${#numbers.sequence(startPage,endPage)}"><!--thymeleaf 문법-->
-                <a th:if="${i != postPage.number}" th:href="@{/posts(page=${i})}" th:text="${i+1}"></a>
+                <a th:if="${i != postPage.number}" th:href="@{/posts(page=${i}, keyword=${keyword})}" th:text="${i+1}"></a>
                 <strong th:if="${i == postPage.number}" th:text="${i+1}"></strong>
             </span>
         <!--다음-->
-        <a th:if="${postPage.hasNext()}" th:href="@{/posts(page=${postPage.number+1})}">▶</a>
-        <a th:href="@{/posts(page=${postPage.totalPages})}">last</a>
+        <a th:if="${postPage.hasNext()}" th:href="@{/posts(page=${postPage.number+1}, keyword=${keyword})}">▶</a>
+        <a th:href="@{/posts(page=${postPage.totalPages-1}, keyword=${keyword})}">last</a>
     </div>
 </body>
 </html>

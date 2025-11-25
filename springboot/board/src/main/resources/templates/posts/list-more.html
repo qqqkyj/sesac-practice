@@ -19,7 +19,7 @@
         </tr></thead>
         <tbody>
         <!-- tr>td*3 입력 후 tab -->
-        <tr th:each="post : ${postSlice}">
+        <tr th:each="post : ${postSlice.getContent()}">
             <td th:text="${post.id}"></td>
             <td>
                 <a th:href="@{/posts/{id}(id=${post.id})}"

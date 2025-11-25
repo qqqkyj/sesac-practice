@@ -30,4 +30,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     // 무한스크롤(Slice)
     Slice<Post> findAllBy(Pageable pageable);
+
+    // 검색 페이징 처리
+    Page<Post> findByTitleContaining(String keyword, Pageable pageable);
+
+    // 검색 JPQL도 가능
+    @Query("SELECT p FROM Post p WHERE p.title LIKE %:keyword% OR p.content LIKE %:keyword% ORDER BY p.createdAt DESC")
+    Page<Post> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
 }

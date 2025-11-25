@@ -38,24 +38,50 @@ public class PostController {
     }
 
     //페이징 처리
+//    @GetMapping
+//    public String list(@PageableDefault(size = 15, sort = "id" ,direction = Sort.Direction.DESC) Pageable pageable,
+//                       Model model){
+//        Page<Post> postPage = postService.getPostPage(pageable);
+//
+//        int currentPage = pageable.getPageNumber();
+//        int totalPages = postPage.getTotalPages();
+//
+//        int displayPages = 5;
+//        int startPage = Math.max(0, currentPage - displayPages/2);
+//        int endPage = Math.min(startPage + displayPages - 1, totalPages - 1);
+//        startPage = Math.max(0, endPage - displayPages + 1);
+//
+//        model.addAttribute("postPage",postPage);
+//        model.addAttribute("startPage",startPage);
+//        model.addAttribute("endPage",endPage);
+//        return "posts/list";
+//    }
+
+    // 리스트 + 검색
     @GetMapping
     public String list(@PageableDefault(size = 15, sort = "id" ,direction = Sort.Direction.DESC) Pageable pageable,
+                       @RequestParam(required = false) String keyword,
                        Model model){
-        Page<Post> postPage = postService.getPostPage(pageable);
+
+        Page<Post> postPage;
+
+        if(keyword == null || keyword.isBlank()) postPage = postService.getPostPage(pageable);
+        else postPage = postService.getPostPageByTitle(keyword, pageable);
 
         int currentPage = pageable.getPageNumber();
-        int totalPages = postPage.getTotalPages();
+        int displayPage = 5;
+        int startPage = Math.max(0, currentPage - displayPage/2);
+        int endPage = Math.min(startPage + displayPage - 1, postPage.getTotalPages() - 1);
+        startPage = Math.max(0, endPage - displayPage + 1);
 
-        int displayPages = 5;
-        int startPage = Math.max(0, currentPage - displayPages/2);
-        int endPage = Math.min(startPage + displayPages - 1, totalPages - 1);
-        startPage = Math.max(0, endPage - displayPages + 1);
+        model.addAttribute("postPage", postPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("keyword", keyword);
 
-        model.addAttribute("postPage",postPage);
-        model.addAttribute("startPage",startPage);
-        model.addAttribute("endPage",endPage);
         return "posts/list";
     }
+
 
     //스크롤 처리(Slice)
     @GetMapping("/more")
