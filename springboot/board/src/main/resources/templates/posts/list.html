@@ -10,6 +10,7 @@
 <body>
 <h1>list</h1>
 <a href="/posts/new">new</a>
+<a href="/posts/dummy">dummy</a>
 
 <form action="/posts/search">
     <input type="text" name="keyword">
@@ -27,7 +28,7 @@
     </tr></thead>
     <tbody>
     <!-- tr>td*3 입력 후 tab -->
-    <tr th:each="post : ${posts}">
+    <tr th:each="post : ${postPage}">
         <td th:text="${post.id}"></td>
         <td>
             <a th:href="@{/posts/{id}(id=${post.id})}"
@@ -39,5 +40,20 @@
     </tr>
     </tbody>
 </table>
+
+    <!-- 페이지 네비게이션 -->
+    <div>
+        <a th:href="@{/posts(page=0)}">first</a>
+        <!--이전-->
+        <a th:if="${postPage.hasPrevious()}" th:href="@{/posts(page=${postPage.number-1})}">◀</a>
+        <!--페이지-->
+        <span th:each="i : ${#numbers.sequence(startPage,endPage)}"><!--thymeleaf 문법-->
+                <a th:if="${i != postPage.number}" th:href="@{/posts(page=${i})}" th:text="${i+1}"></a>
+                <strong th:if="${i == postPage.number}" th:text="${i+1}"></strong>
+            </span>
+        <!--다음-->
+        <a th:if="${postPage.hasNext()}" th:href="@{/posts(page=${postPage.number+1})}">▶</a>
+        <a th:href="@{/posts(page=${postPage.totalPages})}">last</a>
+    </div>
 </body>
 </html>

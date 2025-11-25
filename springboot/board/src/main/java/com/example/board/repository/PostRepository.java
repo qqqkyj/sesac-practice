@@ -1,6 +1,8 @@
 package com.example.board.repository;
 
 import com.example.board.entity.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +22,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     //3. native query
     @Query(value = "SELECT * FROM post WHERE title LIKE %:keyword: ORDER BY created_at DESC", nativeQuery = true)
     List<Post> findByTitleNativeQuery(@Param("keyword") String keyword);
+
+    // 페이징 처리
+    // JpaRepository가 구현 해둔 메서드 오버로딩
+    Page<Post> findAll(Pageable pageable);
 }
