@@ -1,6 +1,7 @@
 package com.example.board.controller;
 
 import com.example.board.dto.PostDTO;
+import com.example.board.entity.Post;
 import com.example.board.repository.PostRepository;
 import com.example.board.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class PostController {
 
     @GetMapping
     public String list(Model model) {
-        List<PostDTO> posts = postRepository.findAll();
+        List<Post> posts = postService.getAllPosts();
         model.addAttribute("posts", posts);
         return "posts/list";
     }
@@ -33,15 +34,15 @@ public class PostController {
 
     //실제 생성
     @PostMapping
-    public String create(@ModelAttribute PostDTO post) {
-        postRepository.save(post);
+    public String create(@ModelAttribute Post post) {
+        postService.createPost(post);
         return "redirect:/posts";
     }
 
     //상세페이지
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model) {
-        PostDTO post = postRepository.findById(id);
+        Post post = postService.getPostById(id);
         model.addAttribute("post", post);
         return "posts/detail";
     }
@@ -49,22 +50,23 @@ public class PostController {
     //수정화면 렌더링
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable Long id, Model model) {
-        PostDTO post = postRepository.findById(id);
+        Post post = postService.getPostById(id);
         model.addAttribute("post", post);
         return "posts/form";
     }
 
     //실제 수정
     @PostMapping("/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute PostDTO post) {
-        postRepository.update(id, post);
+    public String update(@PathVariable Long id, @ModelAttribute Post post) {
+        postService.update(id, post);
         return "redirect:/posts/"+id;
     }
 
     //삭제
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id) {
-        postRepository.deleteById(id);
+        Post post = postService.getPostById(id);
+        postService.deletePost(post);
         return "redirect:/posts";
     }
 

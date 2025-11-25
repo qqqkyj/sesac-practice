@@ -66,7 +66,7 @@ public class PostRepository {
         return em.createQuery(jpql,Post.class).getResultList();
     }
 
-    public  Post findById(int id)
+    public  Post findById(Long id)
     {
         return em.find(Post.class,id);
     }
@@ -77,9 +77,9 @@ public class PostRepository {
         return post;
     }
 
-    public void update(Post post)
+    public Post update(Post post)
     {
-        em.merge(post);
+        return em.merge(post);
     }
 
     public void deleteById(Post post){
