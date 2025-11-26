@@ -70,4 +70,13 @@ public class PostService {
     public Page<Post> getPostPageByTitle(String keyword, Pageable pageable){
         return postRepository.findByTitleContaining(keyword, pageable);
     }
+
+    //Fetch Join test
+    public List<Post> getAllPostsWithFetchJoin(){
+        return postRepository.findAllWithCommentsFetchJoin();
+    }
+
+    public List<Post> getAllPostsWithEntityGraph(){
+        return postRepository.findAllWithCommentsEntityGraph();
+    }
 }

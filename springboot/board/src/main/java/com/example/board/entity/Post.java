@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +27,7 @@ public class Post
     private String content;
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+//    @BatchSize(size = 100) //local
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments;
     //생성 시점에 자동으로 현재 시간을 설정

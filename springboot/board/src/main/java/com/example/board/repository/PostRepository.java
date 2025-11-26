@@ -4,6 +4,7 @@ import com.example.board.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,4 +38,14 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     // 검색 JPQL도 가능
     @Query("SELECT p FROM Post p WHERE p.title LIKE %:keyword% OR p.content LIKE %:keyword% ORDER BY p.createdAt DESC")
     Page<Post> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
+    // 1+N문제
+    //1.Fetch Join => 페이징 처리 불가
+    @Query("SELECT p FROM Post p LEFT JOIN p.comments")
+    List<Post> findAllWithCommentsFetchJoin();
+
+    //2.@EntityGraph => 페이징 처리 가능
+    @EntityGraph(attributePaths = {"comments"})
+    @Query("SELECT p FROM Post p")
+    List<Post> findAllWithCommentsEntityGraph();
 }

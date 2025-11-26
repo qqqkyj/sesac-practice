@@ -136,6 +136,13 @@ public class PostController {
         return "redirect:/posts/" + postId;
     }
 
+    //Fetch Join Test
+    @GetMapping("/fetch")
+    public String fetch(Model model){
+        model.addAttribute("posts", postService.getAllPostsWithEntityGraph());
+        return "posts/list-test";
+    }
+
     //수정화면 렌더링
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable Long id, Model model) {
