@@ -1,8 +1,11 @@
 package com.example.board.controller;
 
+import com.example.board.dto.CommentDTO;
 import com.example.board.dto.PostDTO;
+import com.example.board.entity.Comment;
 import com.example.board.entity.Post;
 import com.example.board.repository.PostRepository;
+import com.example.board.service.CommentService;
 import com.example.board.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +25,7 @@ import java.util.List;
 public class PostController {
 //    private final PostRepository postRepository;
     private final PostService postService;
+    private final CommentService commentService;
 
 //    @GetMapping
 //    public String list(Model model) {
@@ -106,12 +110,20 @@ public class PostController {
         return "redirect:/posts";
     }
 
-    //상세페이지
+    //상세페이지, 댓글 생성 및 목록 표시 렌더링
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model) {
         Post post = postService.getPostById(id);
         model.addAttribute("post", post);
+        model.addAttribute("comment", new CommentDTO());
         return "posts/detail";
+    }
+
+    //실제 댓글 생성
+    @PostMapping("/{postId}/comments")
+    public String commentCreate(@PathVariable Long postId, @ModelAttribute Comment comment) {
+        commentService.createComment(postId, comment);
+        return "redirect:/posts/" + postId;
     }
 
     //수정화면 렌더링

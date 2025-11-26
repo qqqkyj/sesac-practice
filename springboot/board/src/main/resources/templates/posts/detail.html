@@ -8,15 +8,36 @@
     <title>detail</title>
 </head>
 <body>
-<h1>Detail</h1>
-<h2 th:text="${post.title}"></h2>
-<p th:text="${post.createdAt}"></p>
-<p th:text="${post.content}"></p>
+    <h1>Detail</h1>
+    <h2 th:text="${post.title}"></h2>
+    <p th:text="${post.createdAt}"></p>
+    <p th:text="${post.content}"></p>
 
-<a href="/posts">목록</a>
-<a th:href="@{/posts/{id}/edit(id=${post.id})}">수정</a>
-<form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post">
-    <button type="submit">삭제</button>
-</form>
+    <a href="/posts">목록</a>
+    <a th:href="@{/posts/{id}/edit(id=${post.id})}">수정</a>
+    <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post">
+        <button type="submit">삭제</button>
+    </form>
+
+    <hr>
+
+    <!--댓글 생성-->
+    <form th:action="@{/posts/{id}/comments(id=${post.id})}" th:object="${comment}" method="post">
+        <label for="content">댓글</label>
+        <input type="text" th:field="*{content}" id="content">
+        <input type="submit">
+    </form>
+
+    <!-- 댓글 목록 -->
+<!--    <div th:if="${comments != null}">-->
+<!--        <div th:each="comment : ${comments}">-->
+<!--            <p th:text="${comment.content}"></p>-->
+<!--            <small th:text="${comment.createdAt}"></small>-->
+<!--            <form th:action="@{/posts/{postId}/comments/{cId}/delete(postId=${post.id},cId=${comment.id})}" method="post">-->
+<!--                <button type="submit">delete</button>-->
+<!--            </form>-->
+<!--            <hr>-->
+<!--        </div>-->
+<!--    </div>-->
 </body>
 </html>
