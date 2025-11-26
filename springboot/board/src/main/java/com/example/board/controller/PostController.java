@@ -116,6 +116,9 @@ public class PostController {
         Post post = postService.getPostById(id);
         model.addAttribute("post", post);
         model.addAttribute("comment", new CommentDTO());
+
+        List<Comment> comments = commentService.getCommentsByPostId(id);
+        model.addAttribute("comments", comments);
         return "posts/detail";
     }
 
@@ -123,6 +126,13 @@ public class PostController {
     @PostMapping("/{postId}/comments")
     public String commentCreate(@PathVariable Long postId, @ModelAttribute Comment comment) {
         commentService.createComment(postId, comment);
+        return "redirect:/posts/" + postId;
+    }
+
+    //실제 댓글 삭제
+    @PostMapping("/{postId}/comments/{cId}/delete")
+    public String commentDelete(@PathVariable Long postId, @PathVariable Long cId) {
+        commentService.deleteComment(cId);
         return "redirect:/posts/" + postId;
     }
 
