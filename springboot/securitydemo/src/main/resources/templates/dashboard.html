@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>dashboard</title>
+</head>
+<body>
+    <h1>DASHBOARD</h1>
+    <p>로그인한 사용자만 볼 수 있습니다.</p>
+
+    <p>hello <span sec:authentication="name"></span></p>
+
+    <div sec:authorize="hasRole('USER')">
+        <p>일반 사용자 입니다.</p>
+        <p th:text="${username}"></p>
+        <p th:text="${password}"></p>
+        <p th:text="${authorities}"></p>
+    </div>
+
+    <div sec:authorize="hasRole('ADMIN')">
+        <p>관리자만 볼 수 있습니다.</p>
+    </div>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="logout">
+    </form>
+
+    <a href="/">home</a>
+</body>
+</html>
