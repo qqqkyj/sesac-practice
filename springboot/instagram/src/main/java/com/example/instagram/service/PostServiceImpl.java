@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -26,5 +28,13 @@ public class PostServiceImpl implements PostService {
                 .build();
         Post saved =  postRepository.save(post);
         return PostResponse.from(saved);
+    }
+
+    @Override
+    public List<PostResponse> getAllPosts() {
+        return postRepository.findAllByOrderByCreatedAtDesc()
+                .stream()
+                .map(PostResponse::from)
+                .toList();
     }
 }

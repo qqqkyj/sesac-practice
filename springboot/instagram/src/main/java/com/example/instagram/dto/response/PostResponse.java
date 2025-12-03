@@ -23,7 +23,7 @@ public class PostResponse {
                 .content(post.getContent())
                 .userId(post.getUser().getId())
                 .username(post.getUser().getUsername())
-                .createdAt(post.getCreatedDate())
+                .createdAt(post.getCreatedAt())
                 .build();
     }
 }

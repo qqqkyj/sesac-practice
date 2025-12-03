@@ -40,4 +40,6 @@ public class PostController {
         postService.create(postCreateRequest, userDetails.getId());
         return "redirect:/";
     }
+
+    
 }
