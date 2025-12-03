@@ -34,7 +34,8 @@ public class AuthController {
 
     //회원가입 시 사용자 정보를 받아서 DB에 저장
     @PostMapping("/signup")
-    public String signup(@Valid @ModelAttribute SignUpRequest signUpRequest, BindingResult bindingResult){
+    public String signup(@Valid @ModelAttribute SignUpRequest signUpRequest
+            , BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return "auth/signup";
         }
