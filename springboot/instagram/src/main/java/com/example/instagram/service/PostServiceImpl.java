@@ -37,4 +37,13 @@ public class PostServiceImpl implements PostService {
                 .map(PostResponse::from)
                 .toList();
     }
+
+    @Override
+    public PostResponse getPostById(Long id) {
+        return PostResponse.from(findByid(id));
+    }
+
+    public Post findByid(Long id){
+        return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post not found"));
+    }
 }

@@ -10,10 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/posts")
@@ -41,5 +38,13 @@ public class PostController {
         return "redirect:/";
     }
 
-    
+    //게시글 상세 페이지
+    @GetMapping("{id}")
+    public String detail(@PathVariable Long id, Model  model,
+                         @AuthenticationPrincipal CustomUserDetails userDetails) {
+        PostResponse post = postService.getPostById(id);
+
+        model.addAttribute("post",post);
+        return "post/detail";
+    }
 }
