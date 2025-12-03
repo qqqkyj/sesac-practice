@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
                 .build();
         return userRepository.save(user);
     }
+
+    @Override
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("User not found"));
+    }
 }
