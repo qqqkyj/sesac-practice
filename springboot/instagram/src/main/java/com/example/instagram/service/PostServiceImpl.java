@@ -40,10 +40,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponse getPostById(Long id) {
-        return PostResponse.from(findByid(id));
+        return PostResponse.from(findById(id));
     }
 
-    public Post findByid(Long id){
+    @Override
+    public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post not found"));
     }
 }
