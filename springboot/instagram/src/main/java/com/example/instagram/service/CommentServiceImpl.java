@@ -1,6 +1,6 @@
 package com.example.instagram.service;
 
-import com.example.instagram.dto.request.CommentCreateRequest;
+import com.example.instagram.dto.request.CommentRequest;
 import com.example.instagram.dto.response.CommentResponse;
 import com.example.instagram.entity.Comment;
 import com.example.instagram.entity.Post;
@@ -23,11 +23,11 @@ public class CommentServiceImpl implements  CommentService {
     //댓글 생성
     @Override
     @Transactional
-    public CommentResponse create(Long postId, CommentCreateRequest commentCreateRequest, Long userId) {
+    public CommentResponse create(Long postId, CommentRequest commentRequest, Long userId) {
         User user = userService.findById(userId);
         Post post =  postService.findById(postId);
         Comment comment = Comment.builder()
-                .content(commentCreateRequest.getContent())
+                .content(commentRequest.getContent())
                 .user(user)
                 .post(post)
                 .build();
