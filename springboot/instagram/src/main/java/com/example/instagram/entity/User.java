@@ -36,4 +36,9 @@ public class User extends BaseEntity {
         this.role = role != null ? role : Role.USER;
         this.bio = bio;
     }
+
+    public void updateProfile(String name, String bio){
+        this.name = name;
+        this.bio = bio;
+    }
 }
